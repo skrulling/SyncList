@@ -12,18 +12,7 @@ let connections = 0;
 app.use(express.static(path.join(__dirname, 'public')));
 
 // In-memory data store
-const tasks = [
-    {
-      id: 1,
-      text: 'Sample Task 1',
-      done: false
-    },
-    {
-      id: 2,
-      text: 'Sample Task 2',
-      done: false
-    }
-  ];
+const tasks = [];
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
@@ -32,7 +21,6 @@ wss.on('connection', (ws) => {
     ws.send(JSON.stringify({ type: 'init', payload: tasks }));
 
     ws.on('message', (message) => {
-        //console.log(message)
         const data = JSON.parse(message);
         switch (data.type) {
             case 'request_init':
